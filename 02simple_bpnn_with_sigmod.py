@@ -45,7 +45,7 @@ def test(data_list,result):
     D = sigmod(B*W5 + C*W6 + b3)
 
 
-    sig_D = sigmod(D) * (1 - sigmod(D))
+    sig_D = sigmod(D) * (1 - sigmod(D))  #sigmod(D)求导的值,在反向传播求导的每个公式里面都有用到。
 
     print("实际输出值 D={0}".format(D))
 
