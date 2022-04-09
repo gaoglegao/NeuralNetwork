@@ -1,3 +1,4 @@
+import numpy as np
 #正向传播
 
 #参数初始化
@@ -22,48 +23,48 @@ test_data = [
             ] 
 
 def sigmod(x):
-    e=2.7182
-    return 1/(1 + e**x)
+    return 1/(1+np.exp(-x))
 
-print("sigmod=",sigmod(10)) #4.5397868702434394504792515728612e-5
+#print("sigmod=",sigmod(10)) #4.5397868702434394504792515728612e-5
 
-while True:
-    pass
+
 def test(data_list,result):
     global A,E,B,C,D
     global W1,W2,W3,W4,W5,W6
-    global b1,b2
-
-    print("输入 A={0} ,B ={1}".format(A,B))
-    print("期望输出值 D={0}".format(result))
-
+    global b1,b2,b3
 
 
     A = data_list[0]
     E = data_list[1]
 
+    print("输入 A={0} , E ={1}".format(A,E))
+    print("期望输出值 D={0}".format(result))
+
     B = A*W1 + E*W2 + b1
     C = A*W3 + E*W4 + b2
-    D = B*W5 + C*W6 + b3
+    D = sigmod(B*W5 + C*W6 + b3)
+
+
+    sig_D = sigmod(D) * (1 - sigmod(D))
 
     print("实际输出值 D={0}".format(D))
 
 
-    W1 = W1 - L*2*W5*A*(D - result)
-    W2 = W2 - L*2*W5*E*(D - result)
-    b1 = b1 - L*2*W5*(D - result)
+    W1 = W1 - L*2*W5*A*(D - result) * sig_D
+    W2 = W2 - L*2*W5*E*(D - result) * sig_D
+    b1 = b1 - L*2*W5*(D - result) * sig_D
 
 
-    W3 = W3 - L*2*W6*A*(D - result)
-    W4 = W4 - L*2*W6*E*(D - result)
-    b2 = b2 - L*2*W6*(D - result)
+    W3 = W3 - L*2*W6*A*(D - result) * sig_D
+    W4 = W4 - L*2*W6*E*(D - result) * sig_D
+    b2 = b2 - L*2*W6*(D - result) * sig_D
 
-    W5 = W5 - L*B*(D - result)
-    W6 = W6 - L*C*(D - result)
-    b3 = b3 - L*(D - result)
+    W5 = W5 - L*B*(D - result) * sig_D
+    W6 = W6 - L*C*(D - result) * sig_D
+    b3 = b3 - L*(D - result) * sig_D
 
     print("误差值:",abs(D-result))
-    print("w1 , w2 , w3 , w4 ,w5, w6 ,b1 ,b2 = ",W1,W2,W3,W4,W5,W6, b1,b2)
+    print("w1 , w2 , w3 , w4 ,w5, w6 ,b1 ,b2 ,b3 = ",W1,W2,W3,W4,W5,W6, b1,b2 ,b3)
 
     return abs(D-result)
 
@@ -71,7 +72,8 @@ def test(data_list,result):
 qualified_count = 0
 while True:
     for item in test_data:
-        if test(item[0],item[1]) < 0.000000000001:
+        #print("--------------",item[0],item[1])
+        if test(item[0],item[1]) < 0.003:
             qualified_count+=1
             if qualified_count > 100: #多次训练结果都达到精度要求则完成训练
                 print("训练完成")

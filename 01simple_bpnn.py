@@ -27,13 +27,11 @@ def test(data_list,result):
     global W1,W2,W3,W4,W5,W6
     global b1,b2,b3
 
-    print("输入 A={0} ,B ={1}".format(A,B))
-    print("期望输出值 D={0}".format(result))
-
-
-
     A = data_list[0]
     E = data_list[1]
+
+    print("输入 A={0} ,E ={1}".format(A,E))
+    print("期望输出值 D={0}".format(result))
 
     B = A*W1 + E*W2 + b1
     C = A*W3 + E*W4 + b2
