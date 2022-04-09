@@ -21,11 +21,18 @@ test_data = [
              [[1,1],1]
             ] 
 
+def sigmod(x):
+    e=2.7182
+    return 1/(1 + e**x)
 
+print("sigmod=",sigmod(10)) #4.5397868702434394504792515728612e-5
+
+while True:
+    pass
 def test(data_list,result):
     global A,E,B,C,D
     global W1,W2,W3,W4,W5,W6
-    global b1,b2,b3
+    global b1,b2
 
     print("输入 A={0} ,B ={1}".format(A,B))
     print("期望输出值 D={0}".format(result))
@@ -56,7 +63,7 @@ def test(data_list,result):
     b3 = b3 - L*(D - result)
 
     print("误差值:",abs(D-result))
-    print("w1 , w2 , w3 , w4 ,w5, w6 ,b1 ,b2 ,b3 = ",W1,W2,W3,W4,W5,W6, b1,b2,b3)
+    print("w1 , w2 , w3 , w4 ,w5, w6 ,b1 ,b2 = ",W1,W2,W3,W4,W5,W6, b1,b2)
 
     return abs(D-result)
 
